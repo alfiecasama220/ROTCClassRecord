@@ -30,11 +30,11 @@ return new class extends Migration
             $table->integer('A13')->default(null)->nullable();
             $table->integer('A14')->default(null)->nullable();
             $table->integer('A15')->default(null)->nullable();
-            $table->integer('prelim')->nullable();
-            $table->integer('midterm')->nullable();
-            $table->integer('final')->nullable();
-            $table->integer('merit')->nullable();
-            $table->integer('final_grade')->nullable();
+            $table->double('prelim')->nullable();
+            $table->double('midterm')->nullable();
+            $table->double('final')->nullable();
+            $table->double('merit')->nullable();
+            $table->double('final_grade')->nullable();
             $table->unsignedBigInteger('user_id')->constrained()->onDelete('cascade');
             // $table->integer('maxPrelimValue')->default(200);
             // $table->integer('maxMidtermValue')->default(200);

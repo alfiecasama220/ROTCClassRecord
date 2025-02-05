@@ -8,16 +8,20 @@
     .box {
         border-radius: 15px; /* Rounded corners */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        border-bottom-left-radius: 0;
         transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
         background-color: #4e73df; /* Primary color */
         color: white;
         text-align: center;
         font-size: 1.2rem;
+        
+        transition: .3s ease-in
     }
 
     .box:hover {
         transform: translateY(-5px); /* Lift effect */
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        text-decoration: none;
     }
 
     .box .content {
@@ -35,14 +39,17 @@
     }
 </style>
 
-<div class="container mt-4">
+<div class="container shadow p-3 mb-5 bg-white rounded box">
+    <div class="text-dark text-left"><p>Goodmorning, <b>{{ Auth::user()->name }}!</b></p></div>
+
     <div class=" w-100 d-flex mb-5 justify-content-between align-items-center">
-        <div><h4>Dashboard</h4></div>
-        <div></div>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">
+        <div class="text-dark text-left"><p>Batch Records</p></div>
+    </div>
+
+    <div class=" w-100 d-flex mb-5 justify-content-between align-items-center">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form">
             Add Batch
         </button>  
-         
     </div>
 
     @if(session('success'))
@@ -59,18 +66,20 @@
                 </div>
             @endif
     
-    <div class="row">
+    <div class="row p-3">
         
         @foreach ($batches as $batch )
              <!-- Box 1 -->
             <div class="col-md-3 mb-4">
-                <a href="{{ route('home.show', $batch->id) }}" class="box p-5 d-flex justify-content-center align-items-center">
+                <a href="{{ route('home.show', $batch->id) }}" class="box p-5 d-flex flex-direction-row justify-content-center align-items-center">
+                   
                     <div class="content d-flex flex-column">
                         {{ $batch->batch_name }}
                         <p>{{ $batch->yearFrom }} - {{ $batch->yearTo }}</p>
                     </div>
                     
                 </a>
+                
             </div>
         @endforeach
         

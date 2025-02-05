@@ -46,7 +46,7 @@ class LoginController extends Controller
             $user->password = $request->password;
             $user->save();
 
-            return redirect()->intended(route('index'))->with('success', 'User created successfully');
+            return redirect()->intended(route('login'))->with('success', 'User created successfully');
         } else {
             return redirect()->back()->with('error', 'Data not valid');
         }
@@ -102,6 +102,6 @@ class LoginController extends Controller
     {
         Auth::logout();
         Session::flush();
-        return redirect()->route('index')->with('success', 'Logout successfully');
+        return redirect()->route('login')->with('success', 'Logout successfully');
     }
 }

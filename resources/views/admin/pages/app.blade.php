@@ -8,9 +8,17 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/icons/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
 </head>
 <style>
+
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background-color: #f8f9fa; /* Subtle gray background for elegance */
       font-family: 'Arial', sans-serif;
@@ -88,11 +96,13 @@
   
 
 <body>
-    
-    <div class="w-100 d-flex align-items-start justify-content-start">
     @include('admin.pages.header')
+    <div class="w-100">
+      <div class="container-fluid w-100">
+    
     @yield('content')
-    </div>
+    @include('admin.pages.footer')
+  </div>
   
     <!-- Bootstrap 4 JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

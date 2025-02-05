@@ -34,27 +34,31 @@
                 </div>
             @endif
 
-        <div class="mb-3 d-flex justify-content-between align-items-center">
+        <div class="mb-3 row p-2">
 
-                <div class="input-group w-25">
+                <div class="input-group w-100 col-xl-8 col-lg-8 col-sm-8 col-12">
                 <form class="d-flex" action="{{ route('search', $batchName->id) }}" method="POST">
                     @csrf
-                    <input type="text" name="search" class="form-control" value="{{ isset($search) ? $search : '' }}" placeholder="Student's name" aria-label="Student's name" aria-describedby="basic-addon2">
+                    <input type="text" name="search" class="form-control" value="{{ isset($search) ? $search : '' }}" placeholder="Student's Last name" aria-label="Student's name" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                     <button class="btn btn-outline-secondary mr-1" type="submit"><i class="bi bi-search"></i></button>
                     </div>
-                    <a class="btn btn-outline-secondary bg-danger" href="{{ route('home.show', $batchName->id) }}"><i class="text-light bi bi-x-circle"></i></a>
+                    <a class="btn bg-danger" href="{{ route('home.show', $batchName->id) }}"><i class="text-light bi bi-x-circle"></i></a>
                 </form>
                 </div>
-            
 
-            <div class="d-flex flex-direction-column">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form1">
-                    Update Exam Limit
-                </button>  
-                <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#form">
-                    Add Student
-                </button>  
+            {{-- <div class="col-6 col-sm-0 col-md-0"></div> --}}
+
+            <div class="d-flex flex-direction-row w-100 justify-content-center col-xl-4 col-lg-4 col-sm-4 col-4 col-12">
+                <div class=""></div>
+                <div class="">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form1">
+                        Update Exam Limit
+                    </button>  
+                    <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#form">
+                        Add Student
+                    </button>  
+                </div>
             </div>
         </div>
     
@@ -64,7 +68,9 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Student Name</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
                         <th>A1</th>
                         <th>A2</th>
                         <th>A3</th>
@@ -85,6 +91,7 @@
                         <th>Final</th>
                         <th>Merit</th>
                         <th>Final Grade</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,7 +99,9 @@
                         @foreach ($attendance as $attendances)
                         <tr data-student-id={{ $attendances->student_id }}>
                             <td>{{ $attendances->student_id }}</td>
-                            <td>{{ $attendances->student->first_name }} {{ $attendances->student->middle_name }} {{ $attendances->student->last_name }}</td>
+                            <td>{{ $attendances->student->last_name }}</td>
+                            <td>{{ $attendances->student->first_name }}</td>
+                            <td>{{ $attendances->student->middle_name }}</td>
                             <td id="attendance" class="attendance-cell" contenteditable="true" data-column="A1">{{ $attendances->A1 }}</td>
                             <td id="attendance" class="attendance-cell" contenteditable="true" data-column="A2">{{ $attendances->A2 }}</td>
                             <td id="attendance" class="attendance-cell" contenteditable="true" data-column="A3">{{ $attendances->A3 }}</td>
@@ -113,6 +122,13 @@
                             <td class="attendance-cell grade" contenteditable="true" data-column="final">{{ $attendances->final }}</td>
                             <td class="attendance-cell grade" contenteditable="true" data-column="merit">{{ $attendances->merit }}</td>
                             <td class="final-grade">{{ $attendances->final_grade }}</td>
+                            <td>
+                                @if($attendances->final_grade >= 75)
+                                    <div class="text-success">Passed</div>
+                                @elseif ($attendances->final_grade <= 74)
+                                    <div class="text-danger">Failed</div>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach   
                         @else
@@ -200,10 +216,7 @@
         </div>
       </div>
 
-    <!-- Footer -->
-    <footer class="mt-5 py-3 text-center border-top">
-        <small>&copy; 2025 Admin Dashboard. All rights reserved.</small>
-    </footer>
+    
 </div>
 
 <!-- Custom CSS -->

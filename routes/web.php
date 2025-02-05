@@ -11,11 +11,17 @@ use App\Http\Controllers\HomeController;
 //     return view('welcome');
 // });
 
-Route::resource('/', LoginController::class);
+// Route::resource('/', LoginController::class);
+Route::resource('/', LoginController::class, [
+    'names' => [
+        'index' => 'login',
+    ]
+]);
 
 // LOGIN
 Route::post('/login', [LoginController::class, 'login'])->name('admin.login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
 Route::middleware(['auth'])->group(function () {
 
     // HANDLER
