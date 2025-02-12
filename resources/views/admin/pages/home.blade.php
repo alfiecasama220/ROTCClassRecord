@@ -4,137 +4,81 @@
 @section('content')
 
 <style>
-    /* Custom styles for elegant box design */
-    .box {
-        border-radius: 15px; /* Rounded corners */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        border-bottom-left-radius: 0;
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
-        background-color: #4e73df; /* Primary color */
-        color: white;
-        text-align: center;
-        font-size: 1.2rem;
-        
-        transition: .3s ease-in
-    }
-
-    .box:hover {
-        transform: translateY(-5px); /* Lift effect */
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-        text-decoration: none;
-    }
-
-    .box .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-
-    /* Optional: Responsive adjustments for smaller screens */
-    @media (max-width: 767px) {
-        .box {
-            font-size: 1rem;
-        }
-    }
+    /* Import clean professional font */
+    
 </style>
 
-<div class="container shadow p-3 mb-5 bg-white rounded box">
-    <div class="text-dark text-left"><p>Goodmorning, <b>{{ Auth::user()->name }}!</b></p></div>
-
-    <div class=" w-100 d-flex mb-5 justify-content-between align-items-center">
-        <div class="text-dark text-left"><p>Batch Records</p></div>
+<div class="container shadow p-4 bg-white rounded">
+    <div class="header-section">
+        <p>Goodmorning, <span class="text-success font-weight-bold">{{ Auth::user()->name }}</span>!</p>
+        <h3>Batch Records</h3>
     </div>
 
-    <div class=" w-100 d-flex mb-5 justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#form">
             Add Batch
-        </button>  
+        </button>
     </div>
 
     @if(session('success'))
-                <div class="pt-3 pl-3 pr-3">
-                    <div class="alert alert-success messageAlert" role="alert">
-                        {{ session('success') }}
-                    </div>
-                </div>
-            @elseif(session('error'))
-                <div class="pt-3 pl-3 pr-3">
-                    <div class="alert alert-danger messageAlert" role="alert">
-                        {{ session('error') }}
-                    </div>
-                </div>
-            @endif
-    
-    <div class="row p-3">
-        
-        @foreach ($batches as $batch )
-             <!-- Box 1 -->
-            <div class="col-md-3 mb-4">
-                <a href="{{ route('home.show', $batch->id) }}" class="box p-5 d-flex flex-direction-row justify-content-center align-items-center">
-                   
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @elseif(session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="row">
+        @foreach ($batches as $batch)
+            <div class="col-md-4 mb-4">
+                <a href="{{ route('home.show', $batch->id) }}" class="card d-flex justify-content-center align-items-center">
                     <div class="content d-flex flex-column">
-                        {{ $batch->batch_name }}
-                        <p>{{ $batch->yearFrom }} - {{ $batch->yearTo }}</p>
+                        <h4 class="text-primary">{{ $batch->batch_name }}</h4>
+                        <p class="batch-record">{{ $batch->yearFrom }} - {{ $batch->yearTo }}</p>
                     </div>
-                    
                 </a>
-                
             </div>
         @endforeach
-        
     </div>
 </div>
 
 <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header border-bottom-0">
-          <h5 class="modal-title" id="exampleModalLabel">Add a batch</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="{{ route('home.store') }}" method="POST">
-            @csrf
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="email1">Batch name</label>
-              <input type="name" name="batchName" class="form-control" id="email1" aria-describedby="emailHelp" placeholder="Enter batch name">
-              {{-- <small id="emailHelp" class="form-text text-muted">Your information is safe with us.</small> --}}
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add a Batch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div.form-group>
-                <div class="container mt-5">
-                    <h3>Input Year from</h3>
-                    <input type="text" name="yearFrom" id="yearpicker" class="form-control" placeholder="Select Year">
+            <form action="{{ route('home.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="batchName">Batch Name</label>
+                        <input type="text" name="batchName" class="form-control" id="batchName" placeholder="Enter batch name">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="yearFrom">Year From</label>
+                        <input type="text" name="yearFrom" id="yearpicker" class="form-control" placeholder="Select Year">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="yearTo">Year To</label>
+                        <input type="text" name="yearTo" id="yearpicker" class="form-control" placeholder="Select Year">
+                    </div>
                 </div>
-
-                <div class="container mt-5">
-                    <h3>Input Year to</h3>
-                    <input type="text" name="yearTo" id="yearpicker" class="form-control" placeholder="Select Year">
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
-          </div>
-          
-          <div class="modal-footer border-top-0 d-flex justify-content-center">
-            <button type="submit" class="btn btn-success">Submit</button>
-          </div>
-        </form>
-      </div>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 
-  {{-- <script>
-    $(document).ready(function () {
-        // Initialize the year-only datepicker
-        $('#yearpicker').datepicker({
-            format: "yyyy", // Show year only
-            viewMode: "years", // Show only years
-            minViewMode: "years", // Set the minimum view mode to year
-            startView: 4, // Set the default view to "year"
-            autoclose: true, // Close the picker once the year is selected
-            orientation: "bottom auto" // Open the calendar below the input field
-        });
-    });
-</script> --}}
 
+{{-- <footer>
+    &copy; 2025 ROTC Class Record. All rights reserved.
+</footer> --}}
 @endsection

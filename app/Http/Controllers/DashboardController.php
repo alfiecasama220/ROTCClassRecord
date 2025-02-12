@@ -15,7 +15,11 @@ class DashboardController extends Controller
     public function index()
     {
 
-        $attendance = Attendance::with('student')->get();
+        $attendance = Attendance::with('student')
+        ->join('students', 'attendance.student_id', '=' , 'students.id')
+        ->orderBy('students.last_name', 'asc')
+        ->select('attendance.*')
+        ->get();
         return view('admin.pages.index', compact('attendance', 'batchName'));
     }
 

@@ -20,14 +20,23 @@
     }
 
     body {
-      background-color: #f8f9fa; /* Subtle gray background for elegance */
-      font-family: 'Arial', sans-serif;
+      background-image: url('https://mdci.edu.ph/assets/web/images/Metro-Dumaguete-Colleges-School-Campus-1-1210x423.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif;
+        min-height: 100vh;
+    }
+    
+    .container-fluid {
+      min-height: 100vh;
     }
   
     .table-container {
       margin: 2rem 1rem; /* Not centered, more natural flow */
       padding: 1.5rem;
-      background: #ffffff;
+      /* background: #ffffff; */
       border-radius: 8px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Minimal shadow for modern design */
     }
@@ -92,15 +101,94 @@
       font-weight: bold;
       color: #007bff; /* Subtle blue */
     }
+
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        /* background-color: #f8f9fa; */
+        /* background-image: url('https://scontent.fceb2-1.fna.fbcdn.net/v/t39.30808-6/468980236_1662637201298722_2838240459680541657_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEGW7_VXgPtOR5_lLbiCq82NCuRPDwVQ6c0K5E8PBVDp3HI8LmZJD8p9baLmfP-Eqi1GO7cXzoyfp36C3uZR2sV&_nc_ohc=kucwihXwNjcQ7kNvgFUQ6gg&_nc_oc=AdjmA1BxDLoMOK81A9HWFK2aSFXJq1jYBt8mQ0yD92SBg4TbHTIGNFj8rH6kTBM6LaLZaUAwL_aAF3cU6ZfmbuzD&_nc_zt=23&_nc_ht=scontent.fceb2-1.fna&_nc_gid=A5myqNBfKY0t6GRcPCoUT8A&oh=00_AYBzau1y6qkhicRFynV5nMllOkqKidVkRi43r5KWcGtwQA&oe=67B011C2'); */
+        
+    }
+
+    /* Card design for batches */
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        /* background-color: #ffffff; */
+        color: #343a40;
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-success {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        font-weight: bold;
+        padding: 10px 15px;
+    }
+
+    .btn-success:hover {
+        background-color: #388e3c;
+    }
+
+    /* Header design */
+    .header-section {
+        background-color: #e9ecef;
+        padding: 20px 25px;
+        border-left: 5px solid #4caf50;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+
+    /* Footer design */
+    footer {
+        background-color: #343a40;
+        color: #ffffff;
+        padding: 15px;
+        text-align: center;
+        border-top: 2px solid #4caf50;
+        margin-top: 40px;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .batch-record {
+        color: #6c757d;
+        font-size: 1.1rem;
+    }
+
+    /* Modal Styling */
+    .modal-header {
+        background-color: #f1f1f1;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 767px) {
+        .card {
+            font-size: 1rem;
+        }
+    }
   </style>
   
 
 <body>
     @include('admin.pages.header')
-    <div class="w-100">
+    <div class="w-100 content">
       <div class="container-fluid w-100">
     
     @yield('content')
+    </div>
     @include('admin.pages.footer')
   </div>
   

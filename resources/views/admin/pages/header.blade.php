@@ -1,7 +1,7 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark mb-4 bg-dark">
-        <a class="navbar-brand" href="#">ROTC Class Record Admin Panel</a>
+        <a class="navbar-brand" href="#">MDC ROTC E-CLASS RECORD</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

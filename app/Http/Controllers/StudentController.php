@@ -104,11 +104,50 @@ class StudentController extends Controller
         }
     }
 
+    public function getStudent(string $id, $batch) {
+        $student = Student::where('id',$id)->where('batch_id', $batch)->first();
+
+        if(!$student) {
+            return response()->json(['error' => 'Data not found']);
+        }
+
+        return response()->json(['data' => $student]);
+    }
+
+    public function editStudent(Request $request , string $id, $batch) {
+        $student  = Student::where('id', $id)->where('batch_id', $batch)->first();
+
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'middlename' => 'nullable',
+            'lastname' => 'required',
+            'course' => 'required',
+        ]);
+        if($validator->passes()) {
+            $student->first_name = $request->firstname;
+            $student->middle_name = $request->middlename;
+            $student->last_name = $request->lastname;
+            $student->course = $request->course;
+            $student->save();
+
+            return redirect()->back()->with('success', 'Data edited successfully');
+        } else {
+            return redirect()->back()->with('error', 'Data not edited'); 
+        }
+    }
+ 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $student = Student::findOrFail($id)->delete();
+
+        if($student) {
+            return redirect()->back()->with('success', 'Record deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'No records found');
+        }
     }
+
 }
