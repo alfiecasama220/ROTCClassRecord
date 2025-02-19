@@ -31,6 +31,8 @@
             {{ $batchName->batch_name }} MDC ROTC E-CLASS RECORD
         </h2>
 
+        <h6>Officer: <strong class="text-success">{{ Auth()->user()->name }}</strong></h6>
+
         <div id="alertContainer"></div>
 
         @if(session('success'))
@@ -47,7 +49,7 @@
             <div class="input-group col-xl-8 col-lg-8 col-sm-8 col-12">
                 <form class="d-flex w-100" action="{{ route('search', $batchName->id) }}" method="POST">
                     @csrf
-                    <input type="text" name="search" class="form-control" value="{{ isset($search) ? $search : '' }}" placeholder="Search by Student's Last Name" aria-label="Student's name">
+                    <input type="text" name="search" class="form-control" value="{{ isset($search) ? $search : '' }}" placeholder="Search by Student's Last Name" aria-label="Student's name" required>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> Search</button>
                     </div>
@@ -101,9 +103,9 @@
                                 @endphp --}}
                                 <td id="attendance" class="attendance-cell" contenteditable="true" data-column="A{{ $i }}">{{ $attendances["A$i"] }}</td>
                             @endfor
-                            <td class="attendance-cell grade" contenteditable="true" data-column="prelim">{{ $attendances->prelim }}</td>
-                            <td class="attendance-cell grade" contenteditable="true" data-column="midterm">{{ $attendances->midterm }}</td>
-                            <td class="attendance-cell grade" contenteditable="true" data-column="final">{{ $attendances->final }}</td>
+                            <td class="attendance-cell grade exams" contenteditable="true" data-column="prelim">{{ $attendances->prelim }}</td>
+                            <td class="attendance-cell grade exams" contenteditable="true" data-column="midterm">{{ $attendances->midterm }}</td>
+                            <td class="attendance-cell grade exams" contenteditable="true" data-column="final">{{ $attendances->final }}</td>
                             <td class="attendance-cell grade" contenteditable="true" data-column="merit">{{ $attendances->merit }}</td>
                             <td class="final-grade">{{ $attendances->final_grade }}</td>
                             <td>
@@ -282,7 +284,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger">Delete</button>
-                        <button type="submit" class="btn btn-primary">Cancel</button>
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-primary">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -320,6 +322,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const attendanceCells = document.querySelectorAll('#attendance');
+        const exams = document.querySelectorAll('.exams');
 
         attendanceCells.forEach(cell => {
             cell.addEventListener('blur', function () {
@@ -334,12 +337,26 @@
             });
         });
 
+        // exams.forEach(cell => {
+        //     cell.addEventListener('blur', function () => {
+                
+        //     })
+        // })
+
         const finalGrade = document.querySelectorAll('.final-grade');
 
         finalGrade.forEach(finalGrades => {
             const value = parseFloat(finalGrades.textContent.trim()) || 0;
+
+            if(value == 0) {
+                console.log(value)
+                finalGrades.classList.add('bg-transparent');
+                finalGrades.innerText = null;
+            } 
+
             if (value < 75) {
                 finalGrades.classList.add('badge-danger');
+                // console.log(value)
             } else {
                 finalGrades.classList.add('badge-success');
             }
@@ -362,6 +379,8 @@
 
             if(zeroCount >= 4) {
                 statusCell.innerHTML = '<div class="text-danger font-weight-bold">Dropped</div>';
+            } else if(finalGrade == 0 || finalGrade == null) {
+                statusCell.innerHTML = "";
             } else if (finalGrade >= 75) {
                 statusCell.innerHTML = '<div class="text-success font-weight-bold">Passed</div>';
             } else {

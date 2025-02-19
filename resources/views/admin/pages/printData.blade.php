@@ -73,7 +73,7 @@
         {{-- <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form1">Update Exam Limit</button>
         <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#form">Add Student</button> --}}
     </div>
-    <div class="col-md-4">
+    {{-- <div class="col-md-4">
         <label for="inputState">Print Specific Data</label>
         <select id="inputState" class="form-control w-25">
           <option selected>Choose...</option>
@@ -81,7 +81,7 @@
             <option class="options" value="A{{$i}}">A{{ $i }}</option>
           @endfor
         </select>
-      </div>
+      </div> --}}
 </div>
 
     <!-- Full-Page Table -->
@@ -131,7 +131,7 @@
                         <th>First Name</th>
                         <th>Middle Name</th>
                         
-                        <th>Final Grade</th>
+                        <th>{{ $column }}</th>
                       
                     </tr>
                 </thead>
@@ -145,7 +145,7 @@
                             <td>{{ $attendances->student->first_name }}</td>
                             <td>{{ $attendances->student->middle_name }}</td>
                             
-                            <td class="final-grade">{{ $attendances->final_grade }}</td>
+                            <td class="final-grade">{{ $attendances->$column }}</td>
                             
                             
                         </tr>
@@ -158,7 +158,7 @@
         </div>
     </div>
 
-<script>
+{{-- <script>
     const finalGrade = document.querySelectorAll('.final-grade');
 
 finalGrade.forEach(finalGrades => {
@@ -169,7 +169,7 @@ finalGrade.forEach(finalGrades => {
         finalGrades.classList.add('badge-success');
     }
 });
-</script>
+</script> --}}
 
 <!-- Custom CSS -->
 <style>
@@ -211,20 +211,17 @@ finalGrade.forEach(finalGrades => {
         let selections = document.getElementById('inputState');
         selections.addEventListener('change', () => {
             const selectedOption = selections.options[selections.selectedIndex].value;
-            let batchID = document.querySelector('.batchID').value;
             
-            let URL = "{{route('getData', ['column' => ':column' , 'id' => ':id'])}}";
-            let finalURL = URL.replace(':column', selectedOption).replace(':id', batchID);
-            console.log(finalURL)
-            window.open(finalURL, "_parent")
-            // fetch(URL)
-            // .then(response => response.json())
-            // .then(data => {
-            //     console.log(data)
-            // })
-            // .catch(error => {
-            //     console.error(error)
-            // })
+            let URL = `/home/print/getData/${selectedOption})`;
+            console.log(URL)
+            fetch(URL)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error(error)
+            })
         })
     })
 </script>

@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/home/student/edit/{id}/{batch}', [StudentController::class, 'editStudent'])->name('editStudent');
 
     Route::get('/home/print/{id}', [PrintableController::class, 'print'])->name('print');
+    Route::get('/home/print/getData/{column}/{id}', [PrintableController::class, 'getData'])->name('getData');
 
 });
 

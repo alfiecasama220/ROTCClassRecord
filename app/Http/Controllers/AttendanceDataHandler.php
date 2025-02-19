@@ -45,6 +45,33 @@ class AttendanceDataHandler extends Controller
         \Log::info('Request Data:', ['studentId' => $studentId, 'column' => $column, 'value' => $value]);
         
         try {
+
+            $attendance = Attendance::where('student_id', $studentId)->first();
+            if(!$attendance) {
+                \Log::warning("Attendance record not found for student_id: " . $studentId);
+                return response()->json(['success' => false, 'message' => 'Attendance record not found']);
+            }
+
+            $batch = Batch::where('id', $attendance->batch_id)->first();
+            if(!$batch) {
+                \Log::warning("Batch Record not found for student_id: " . $studentId);
+                return response()->json(['success' => false, 'message' => 'Batch record not found']);
+            }
+
+            $limits = [
+                'prelim' => $batch->maxPrelimValue,
+                'midterm' => $batch->maxMidtermValue,
+                'final' => $batch->maxFinalValue,
+            ];
+
+            if(isset($limits[$column]) && $value > $limits[$column]) {
+                \Log::warning("{$column} score exceeds limit ({$limits[$column]}) for student_id: {$studentId}");
+                return response()->json([
+                    'success' => false,
+                    'message' => ucfirst($column) . " score cannot exceed {$limits[$column]}."
+                ]);
+            }
+
             // Update the specific attendance column
             DB::table('attendance')
                 ->where('student_id', $studentId)
@@ -93,6 +120,8 @@ class AttendanceDataHandler extends Controller
             })->get();
 
             return view('admin.pages.index', compact('attendance', 'batchName', 'batchId', 'search'));
+        } else {
+            return redirect()->back()->with('error', "Please input field");
         }
     }
     

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/icon.png') }}">
 
 </head>
 <style>
@@ -228,6 +228,11 @@
               
               if(data.success) {
                 localStorage.setItem("success", data.message);
+                localStorage.setItem("successStatus", "success");
+                location.reload();
+              } else {
+                localStorage.setItem("success", data.message);
+                localStorage.setItem("successStatus", "danger");
                 location.reload();
               }
             })
@@ -254,21 +259,34 @@
           });
 
           const message = localStorage.getItem('success');
-          
-          if(message) {
-            const div = document.createElement('div');
-              div.classList.add('alert', 'alert-success', 'fade', 'show');
-              div.role = 'alert';
-              div.innerHTML = message
+          const messageStatus = localStorage.getItem('successStatus');
+          console.log(messageStatus)
 
-              document.getElementById('alertContainer').appendChild(div);
+          function messageStatusNotif(status , messages) {
+            if(status) {
+                const div = document.createElement('div');
+                div.classList.add('alert', `alert-${status}`, 'fade', 'show');
+                div.role = 'alert';
+                div.innerHTML = messages
 
-              localStorage.removeItem('success');
+                document.getElementById('alertContainer').appendChild(div);
 
-              setTimeout(() => {
-                div.remove();
-              }, 3000);
+                localStorage.removeItem('success');
+                localStorage.removeItem('successStatus');
+
+                setTimeout(() => {
+                  div.remove();
+                }, 3000);
+            }
           }
+
+          messageStatusNotif(messageStatus, message);
+          
+          // if(messageStatus == true) {
+          //   messageStatusNotif('success', message);
+          // } else {
+          //   messageStatusNotif('danger', message);
+          // }
         
     });
 

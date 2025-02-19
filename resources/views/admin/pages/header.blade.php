@@ -1,6 +1,9 @@
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark mb-4 bg-dark">
+        <div>
+            <img class="mr-2" width="60" src="{{ asset('assets/images/icon.png') }}" alt="">
+        </div>
         <a class="navbar-brand" href="#">MDC ROTC E-CLASS RECORD</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
